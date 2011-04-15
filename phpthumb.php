@@ -99,7 +99,7 @@ class PhpthumbHelper extends Helper    {
     	
     	$valid_extensions = array('.gif', '.jpg', '.jpeg', '.png');
     	
-    	if(!in_array($this->file_extension, $valid_extensions))	{
+    	if(!in_array(strtolower($this->file_extension), $valid_extensions))	{
     		$this->error = 1;
     		$this->error_detail = 'File ' . $this->options['src'] . ' is not a supported image type';
     		return;
