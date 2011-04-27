@@ -51,7 +51,7 @@ class PhpThumbHelper extends Helper    {
     }
     
     private function create_thumb()    {
-    	App::import('Vendor', 'phpThumb', array('file' => 'phpThumb'.DS.'phpthumb.class.php'));
+    	App::import('Vendor', 'PhpThumb.PhpThumb', array('file' => 'phpThumb'.DS.'phpthumb.class.php'));
     	
         $this->php_thumb = new phpThumb();
         
