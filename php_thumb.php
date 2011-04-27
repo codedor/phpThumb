@@ -1,6 +1,6 @@
 <?
 
-class PhpthumbHelper extends Helper    {
+class PhpThumbHelper extends Helper    {
     
     private $php_thumb;
     private $options;
