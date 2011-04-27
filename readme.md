@@ -35,7 +35,8 @@ You can use it in your view as follows:
 
 ## Fork ##
 
-The helper has been forked from https://github.com/DanielMedia/phpThumb-Helper. More info at http://daniel-salazar.com/post/1/phpthumb-helper-for-cakephp.
+The helper has been forked from https://github.com/DanielMedia/phpThumb-Helper
+More info at http://daniel-salazar.com/post/1/phpthumb-helper-for-cakephp
 
 ## phpThumb library ##
 
