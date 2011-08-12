@@ -1,45 +1,82 @@
-# phpThumb Plugin for CakePHP #
+phpThumb() plugin for CakePHP
+=============================
 
-CakePHP plugin with phpThumb library and helper to generate thumbnails.
+This CakePHP plugin uses phpThumb() to dynamically generate thumbnails of images.
+It is configurable for using with images uploaded with MeioUpload.
 
-## How to use the helper ##
+Installation
+------------
 
-Create a directory "php_thumb" in your app/plugins folder. Clone/copy the plugin in the app/plugins/php_thumb folder. 
+Clone in plugin directory :
 
-Load the phpThumb helper in each controller where you want to use the helper:
+    git clone git://github.com/msadouni/cakephp-phpthumb-plugin.git php_thumb
 
-	var $helpers = array('PhpThumb.PhpThumb');
-	
-You can use it in your view as follows:
+Or download an archive and extract in `plugins/php_thumb`
 
-	<?php
-    $thumbnail = $this->PhpThumb->generate(
-        array(
-        	'save_path' => WWW_ROOT . 'assets/img/thumbs',
-        	// Where to save the thumbnail. (Make sure it is writable by the web server)
-        	'display_path' => '/assets/img/thumbs',
-        	// The web accessible path to the directory that the thumbnail lives in after its created.
-        	'error_image_path' => '/assets/img/error.jpg',
-        	// The default image to display if something goes wrong while generating a thumbnail. 
-    		'src' => WWW_ROOT . 'assets/img/srcImage.jpg',
-    		// The source image to be converted into a thumbnail.
-    		// From here on out, you can pass any standard phpThumb parameters
-    		'w' => 100, 
-    		'h' => 100,
-    		'q' => 100,
-    		'zc' => 1
-        )
-    );
-   	echo $this->Html->image($thumbnail['src'], array('width' => $thumbnail['w'], 'height' => $thumbnail['h']));
-   	?>
+Configuration
+-------------
 
-## Fork ##
+Create `config/config.php` with the following code :
 
-The helper has been forked from https://github.com/DanielMedia/phpThumb-Helper
-More info at http://daniel-salazar.com/post/1/phpthumb-helper-for-cakephp
+    <?php
+    $config['PhpThumb']['thumbs_path'] = 'thumbs';
 
-## phpThumb library ##
+Then create `webroot/thumbs` where the thumbs will be stored.
+You might want to add that folder to your .gitignore.
 
-Currently installed version is 1.7.9. Go to http://phpthumb.sourceforge.net for more information.
+MeioUpload configuration
+------------------------
 
+This is only if you want to use MeioUpload to take care of the upload part.
 
+You only need the basic MeioUpload configuration to upload the original image,
+since all the thumbnails stuff is done dynamically with this plugin.
+
+In your model :
+
+    var $actsAs = array('MeioUpload.MeioUpload' => array('image'));
+
+Add a varchar image field to the model, create `webroot/uploads` with the write
+permissions for you webserver, and you're done.
+For more information on MeioUpload, check [the github page](https://github.com/jrbasso/MeioUpload).
+
+This plugin works out of the box with the default MeioUpload configuration,
+in which images are stored in `webroot/uploads`with a `model/field` structure.
+
+If you use a different folder than `uploads`, then add
+
+    $config['PhpThumb']['meioupload_path'] = 'my-folder';
+
+to `config/config.php`.
+
+Usage
+-----
+
+Load the helper in `AppController` or in each controller where you want to use the helper :
+
+    var $helpers = array('PhpThumb.PhpThumb');
+
+### Normal image
+
+In the view, generate the thumbnail :
+
+    $this->PhpThumb->thumbnail('img/image.jpg', array(
+        'w' => 100, 'h' => 100, 'zc' => 1
+    ));
+
+In the `$options` array you can use any valid phpThumb() option. For detailed
+information on the available options, check [phpThumb()'s readme](http://phpthumb.sourceforge.net/demo/docs/phpthumb.readme.txt)
+
+### MeioUpload'ed image
+
+    // for a Post with an image field containing my-post.jpg
+    $this->PhpThumb->thumbnail($post['Post']['image'], array(
+        'model' => 'Post', 'field' => 'image', 'w' => 100, 'h' => 100, 'zc' => 1
+    ));
+    // will render a thumbnail for this post image in /uploads/post/image/my-post.jpg
+
+This will also work :
+
+    $this->PhpThumb->thumbnail('uploads/post/image/.$post['Post']['image'], array(
+        'w' => 100, 'h' => 100, 'zc' => 1
+    ));

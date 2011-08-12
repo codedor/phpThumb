@@ -1,6 +1,8 @@
 <?php
 
-class PhpThumbHelper extends Helper    {
+App::import('Helper', 'Html');
+
+class PhpThumbHelper extends HtmlHelper {
     
     private $php_thumb;
     private $options;
@@ -121,5 +123,42 @@ class PhpThumbHelper extends Helper    {
         return $this->get_thumb_data();
     }
     
+    function thumbnail($image, $options) {
+        $thumbs_path = Configure::read('PhpThumb.thumbs_path');
+        if (empty($thumbs_path)) {
+            return false;
+        }
+        $pathOptions = array(
+            'save_path' => WWW_ROOT . $thumbs_path,
+            'display_path' => '/' . $thumbs_path,
+            'error_image_path' => Configure::read('PhpThumb.error_image_path')
+        );
+        if (!empty($options['model'])) {
+            // model images from MeioUpload
+            if (empty($options['field'])) {
+                return false;
+            }
+            $meioupload_path = Configure::read('PhpThumb.meioupload_path');
+            if (empty($meioupload_path)) {
+                $meioupload_path = 'uploads';
+            }
+            $options['src'] = sprintf('%s%s/%s/%s/%s',
+                WWW_ROOT,
+                $meioupload_path,
+                strtolower($options['model']),
+                $options['field'],
+                $image
+            );
+            unset($options['model']);
+            unset($options['field']);
+        } else {
+            $options['src'] = WWW_ROOT . $image;
+        }
+        $finalOptions = array_merge($options, $pathOptions);
+        $thumbnail = $this->generate($finalOptions);
+        return $this->image($thumbnail['src'], array(
+            'width' => $thumbnail['w'], 'height' => $thumbnail['h'])
+        );
+    }
 }
 ?>
