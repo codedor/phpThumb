@@ -1,4 +1,4 @@
-<?
+<?php
 
 class PhpThumbHelper extends Helper    {
     
