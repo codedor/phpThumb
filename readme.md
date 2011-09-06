@@ -60,7 +60,7 @@ Load the helper in `AppController` or in each controller where you want to use t
 
 In the view, generate the thumbnail :
 
-    $this->PhpThumb->thumbnail('img/image.jpg', array(
+    echo $this->PhpThumb->thumbnail('img/image.jpg', array(
         'w' => 100, 'h' => 100, 'zc' => 1
     ));
 
@@ -70,13 +70,13 @@ information on the available options, check [phpThumb()'s readme](http://phpthum
 ### MeioUpload'ed image
 
     // for a Post with an image field containing my-post.jpg
-    $this->PhpThumb->thumbnail($post['Post']['image'], array(
+    echo $this->PhpThumb->thumbnail($post['Post']['image'], array(
         'model' => 'Post', 'field' => 'image', 'w' => 100, 'h' => 100, 'zc' => 1
     ));
     // will render a thumbnail for this post image in /uploads/post/image/my-post.jpg
 
 This will also work :
 
-    $this->PhpThumb->thumbnail('uploads/post/image/.$post['Post']['image'], array(
+    echo $this->PhpThumb->thumbnail('uploads/post/image/.$post['Post']['image'], array(
         'w' => 100, 'h' => 100, 'zc' => 1
     ));
