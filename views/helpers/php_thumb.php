@@ -122,8 +122,8 @@ class PhpThumbHelper extends HtmlHelper {
 		
         return $this->get_thumb_data();
     }
-    
-    function thumbnail($image, $options) {
+
+    function generateThumbnail($image, $options) {
         $thumbs_path = Configure::read('PhpThumb.thumbs_path');
         if (empty($thumbs_path)) {
             return false;
@@ -155,10 +155,20 @@ class PhpThumbHelper extends HtmlHelper {
             $options['src'] = WWW_ROOT . $image;
         }
         $finalOptions = array_merge($options, $pathOptions);
-        $thumbnail = $this->generate($finalOptions);
-        return $this->image($thumbnail['src'], array(
-            'width' => $thumbnail['w'], 'height' => $thumbnail['h'])
-        );
+        return $this->generate($finalOptions);
+    }
+
+    function url($image, $options) {
+        $thumbnail = $this->generateThumbnail($image, $options);
+        return $thumbnail['src'];
+    }
+
+    function thumbnail($image, $options, $htmlOptions = array()) {
+        $thumbnail = $this->generateThumbnail($image, $options);
+        return $this->image($thumbnail['src'], array_merge(
+            array('width' => $thumbnail['w'], 'height' => $thumbnail['h']),
+            $htmlOptions
+        ));
     }
 }
 ?>

@@ -67,6 +67,14 @@ In the view, generate the thumbnail :
 In the `$options` array you can use any valid phpThumb() option. For detailed
 information on the available options, check [phpThumb()'s readme](http://phpthumb.sourceforge.net/demo/docs/phpthumb.readme.txt)
 
+You can also pass HTML options :
+
+    echo $this->PhpThumb->thumbnail(
+        'img/image.jpg',
+        array('w' => 100, 'h' => 100, 'zc' => 1),
+        array('alt' => "Alternative text")
+    );
+
 ### MeioUpload'ed image
 
     // for a Post with an image field containing my-post.jpg
@@ -80,3 +88,21 @@ This will also work :
     echo $this->PhpThumb->thumbnail('uploads/post/image/.$post['Post']['image'], array(
         'w' => 100, 'h' => 100, 'zc' => 1
     ));
+
+### Image url
+
+To get only the image url, use the `url` method :
+
+    echo $this->PhpThumb->url('img/image.jpg', array(
+        'w' => 100, 'h' => 100, 'zc' => 1
+    ));
+
+It's useful for the various Javascript gallery script, like Lightbox / Thickbox / Colorbox etc. :
+
+    echo $this->Html->link(
+        $this->PhpThumb->thumbnail(
+            'img/image.jpeg', array('w' => 100, 'h' => 100, 'zc' => 1)
+        ),
+        $this->PhpThumb->url('img/image.jpeg', array('w' => 640, 'h' => 640)),
+        array('escape' => false)
+    );
