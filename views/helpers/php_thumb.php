@@ -83,10 +83,14 @@ class PhpThumbHelper extends HtmlHelper {
         
         if(isset($this->options['w']))    {
             $this->thumb_data['w'] = $this->options['w'];
+        } else {
+            $this->thumb_data['w'] = null;
         }
         
         if(isset($this->options['h']))    {
              $this->thumb_data['h'] = $this->options['h'];
+        } else {
+            $this->thumb_data['h'] = null;
         }
         
         return $this->thumb_data;
