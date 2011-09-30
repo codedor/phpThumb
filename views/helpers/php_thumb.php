@@ -171,4 +171,3 @@ class PhpThumbHelper extends HtmlHelper {
         ));
     }
 }
-?>
