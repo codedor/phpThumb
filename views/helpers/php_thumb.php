@@ -164,11 +164,17 @@ class PhpThumbHelper extends HtmlHelper {
 
     function url($image, $options) {
         $thumbnail = $this->generateThumbnail($image, $options);
+        if (!empty($thumbnail['error'])) {
+            return false;
+        }
         return $thumbnail['src'];
     }
 
     function thumbnail($image, $options, $htmlOptions = array()) {
         $thumbnail = $this->generateThumbnail($image, $options);
+        if (!empty($thumbnail['error'])) {
+            return false;
+        }
         return $this->image($thumbnail['src'], array_merge(
             array('width' => $thumbnail['w'], 'height' => $thumbnail['h']),
             $htmlOptions
