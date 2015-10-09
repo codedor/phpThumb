@@ -9,4 +9,4 @@ if (!file_exists('phpThumb.config.php')) {
 }
 header('Location: ./demo/');
 ?>
-<--.......................--></-->
+</--.......................--></-->
